@@ -7,13 +7,9 @@ export default {
         lg: ["1.125rem", { lineHeight: "1.5625rem" }],
       },
       colors: {
-        textPrimary: "#202020",
         white: "#fff",
         background: "#FBFBFB",
-        border: "#cccccc",
-        topBar: "#242424",
         footer: "#E9E9E9",
-        borderColor: "#8892b0",
         pinkActive: "#D835C5",
         pinkDarkActive: "#A11CF3",
         pink: "#D835C599",

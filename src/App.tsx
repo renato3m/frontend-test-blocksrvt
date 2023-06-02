@@ -1,8 +1,27 @@
 import "./App.css";
 import logo from "./assets/logo.svg";
 import ArrowRightUp from "./assets/ArrowRightUp.svg";
+import { useProduct } from "./hooks/products";
+import { useEffect, useState } from "react";
+
+const baseImageUrl = 'https://plugin-storage.nyc3.digitaloceanspaces.com/families/images';
 
 function App() {
+  const { getListProduct } = useProduct();
+
+  const [products, setProducts] = useState([])
+  const [page, setPage] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getListProduct(page * 10)
+      console.log("Lista de produtos", data)
+      setProducts(data)
+    }
+
+    fetchProducts()
+  }, [page])
+
   return (
     <div className="App">
       <div className="bg-[#242424BF] p-[21px]">
@@ -24,29 +43,31 @@ function App() {
       </header>
       <main>
         <section>
-          <h2 className="text-2xl text-textPrimary font-semibold mt-8">
+          <h2 className="text-2xl text-textPrimary font-semibold mt-[34px]">
             Resultados
           </h2>
-          <div>
-            <div className="rounded-lg border border-gray-300 w-44 h-56">
-              {" "}
-              {/** Card */}
-              <div>
-                <img src="" alt="" />
-              </div>
-              <div className="flex justify-between p-2 border-t">
-                <h3 className="font-semibold text-xs">
-                  Lorem Ipsum is simply ....
-                </h3>
-                <div className="border-l">
-                  <img
-                    src={ArrowRightUp}
-                    alt="arrow"
-                    className="w-4 relative left-2"
-                  />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-4 mt-[18px]">
+            {products.map((product, index) => (
+              <div key={index} className="rounded-lg border border-gray-300 w-full">
+                {" "}
+                {/** Card */}
+                <div className="flex justify-center items-center">
+                  <img src={`${baseImageUrl}/${product?.id}.jpg`} alt="" className="max-h-[198px]"/>
+                </div>
+                <div className="flex justify-between p-2 border-t">
+                  <h3 className="font-semibold text-xs">
+                    Lorem Ipsum is simply ....
+                  </h3>
+                  <div className="border-l pl-2 ml-2 flex items-center justify-center">
+                    <img
+                      src={ArrowRightUp}
+                      alt="arrow"
+                      className="w-4"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </section>
       </main>
